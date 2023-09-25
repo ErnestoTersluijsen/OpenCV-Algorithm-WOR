@@ -1,0 +1,10 @@
+vierkant geel
+driehoek geel
+cirkel geel
+vierkant roze
+rechthoek roze
+halve cirkel roze
+halve cirkel oranje
+vierkant oranje
+driehoek oranje
+cirkel oranje
