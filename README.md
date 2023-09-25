@@ -1,6 +1,6 @@
 # Instalatiehandleiding OpenCV Opdracht
 
-Dit Cmake project is gecompileerd in Clion maar is ook getest in Eclipse.
+Dit Cmake project was geschreven in Clion maar compilatie is ook getest in Eclipse.
 
 ### Dependencies
 
