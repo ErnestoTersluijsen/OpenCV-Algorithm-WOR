@@ -1,9 +1,0 @@
-cirkel groen
-driehoek groen
-halve cirkel groen
-driehoek groen # cool
-vierkant groen # episch
-rechthoek groen
-rechthoek groen
-halve cirkel groen
-exit

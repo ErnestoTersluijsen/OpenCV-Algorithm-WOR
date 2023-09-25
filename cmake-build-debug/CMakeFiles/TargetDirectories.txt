@@ -1,3 +1,0 @@
-/home/ernesto/CLionProjects/OpenCV-Algorithm-WOR/cmake-build-debug/CMakeFiles/OpenCV_Algorithm_WOR.dir
-/home/ernesto/CLionProjects/OpenCV-Algorithm-WOR/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/ernesto/CLionProjects/OpenCV-Algorithm-WOR/cmake-build-debug/CMakeFiles/rebuild_cache.dir
