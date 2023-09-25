@@ -12,8 +12,8 @@ cv::Size blurStrength(5, 5);
 
 cv::Point anchorPoint(-1, -1);
 
-cv::Scalar lowerGreen(70, 50, 50);
-cv::Scalar upperGreen(150, 255, 255);
+cv::Scalar lowerGreen(50, 50, 50);
+cv::Scalar upperGreen(100, 150, 255);
 
 cv::Scalar lowerPink(150, 50, 50);
 cv::Scalar upperPink(300, 255, 255);
