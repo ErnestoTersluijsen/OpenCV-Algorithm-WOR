@@ -1,0 +1,9 @@
+cirkel oranje
+driehoek #groen
+halve cirkel roze
+driehoek groen # comment
+vierkant groen # comment
+rechthoek geel
+rechthoek roze
+halve cirkel groen
+exit

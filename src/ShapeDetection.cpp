@@ -7,10 +7,16 @@
 #include <cmath>
 #include <iostream>
 
-double lowerMargin = 0.8;
-double upperMargin = 1.4;
+double lowerMarginSquare = 0.65;
+double upperMarginSquare = 1.35;
 
-double squareMarginFactor = 0.33;
+double circleLowerMargin = 1.0;
+double circleUpperMargin = 1.3;
+
+double semiCircleLowerMargin = 0.6;
+double semiCircleUpperMargin = 1.3;
+
+double squareMarginFactor = 0.4;
 
 long middlePointRadius = 3;
 
@@ -28,6 +34,11 @@ void detectShape(const cv::Mat& mask, cv::Mat img, Shape shape, bool isInteracti
 
     std::vector<std::vector<cv::Point>> conPoly(contours.size());
     std::vector<cv::Rect> boundRect(contours.size());
+
+    if(shape == NO_SHAPE)
+    {
+    	return;
+    }
 
     bool shapeFound = false;
 
@@ -64,7 +75,7 @@ void detectShape(const cv::Mat& mask, cv::Mat img, Shape shape, bool isInteracti
 //                    if(objCor == 4 && ((std::abs(distances.front() - distances.back()) < squareMargin) || std::abs(distances.front() - distances.back()) < (distances.front() * squareMarginFactor)))
                     if(objCor == 4 &&
                         std::abs(distances.front() - distances.back()) < (distances.front() * squareMarginFactor) &&
-                        ((distances.front() * distances.front()) > area * lowerMargin && (distances.front() * distances.front()) < area * upperMargin))
+                        ((distances.front() * distances.front()) > area * lowerMarginSquare && (distances.front() * distances.front()) < area * upperMarginSquare))
                     {
                         cv::drawContours(img, conPoly, static_cast<int>(i), outlineColour, 2);
                         renderShapeInfo(img, conPoly, i, isInteractive);
@@ -77,7 +88,7 @@ void detectShape(const cv::Mat& mask, cv::Mat img, Shape shape, bool isInteracti
                 {
                     std::vector<double> distances = getDistances(conPoly.at(i));
                     if(objCor == 4 && !(std::abs(distances.front() - distances.back()) < (distances.front() * squareMarginFactor) &&
-                                      ((distances.front() * distances.front()) > area * lowerMargin && (distances.front() * distances.front()) < area * upperMargin)))
+                                      ((distances.front() * distances.front()) > area * lowerMarginSquare && (distances.front() * distances.front()) < area * upperMarginSquare)))
                     {
                         cv::drawContours(img, conPoly, static_cast<int>(i), outlineColour, 2);
                         renderShapeInfo(img, conPoly, i, isInteractive);
@@ -89,7 +100,7 @@ void detectShape(const cv::Mat& mask, cv::Mat img, Shape shape, bool isInteracti
                 case CIRCLE:
                 {
                     int diameter = (boundRect.at(i).width) / 2;
-                    if (objCor > 4 && ((calcCircleArea(diameter) > area * lowerMargin) && (calcCircleArea(diameter) < area * upperMargin)))
+                    if (objCor > 4 && ((calcCircleArea(diameter) > area * circleLowerMargin) && (calcCircleArea(diameter) < area * circleUpperMargin)))
                     {
                         cv::drawContours(img, conPoly, static_cast<int>(i), outlineColour, 2);
                         renderShapeInfo(img, conPoly, i, isInteractive);
@@ -101,8 +112,8 @@ void detectShape(const cv::Mat& mask, cv::Mat img, Shape shape, bool isInteracti
                 case SEMI_CIRCLE:
                 {
                     if (objCor > 4 &&
-                    (calcSemiCircleArea(static_cast<int>(calcLongestLine(conPoly.at(i)) / 2)) > area * lowerMargin &&
-                    calcSemiCircleArea(static_cast<int>(calcLongestLine(conPoly.at(i)) / 2)) < area * upperMargin))
+                    (calcSemiCircleArea(static_cast<int>(calcLongestLine(conPoly.at(i)) / 2)) > area * semiCircleLowerMargin &&
+                    calcSemiCircleArea(static_cast<int>(calcLongestLine(conPoly.at(i)) / 2)) < area * semiCircleUpperMargin))
                     {
                         cv::drawContours(img, conPoly, static_cast<int>(i), outlineColour, 2);
                         renderShapeInfo(img, conPoly, i, isInteractive);
@@ -110,6 +121,10 @@ void detectShape(const cv::Mat& mask, cv::Mat img, Shape shape, bool isInteracti
                         shapeFound = true;
                     }
                     break;
+                }
+                case NO_SHAPE:
+                {
+                	break;
                 }
             }
         }

@@ -24,6 +24,8 @@ cv::Scalar upperYellow(50, 255, 255);
 cv::Scalar lowerOrange(0, 100, 100);
 cv::Scalar upperOrange(25, 255, 255);
 
+cv::Scalar noColor(0, 0, 0);
+
 
 
 void processImage(cv::Mat& img, cv::Mat& dst, cv::Mat& mask, Colour color)
@@ -53,8 +55,10 @@ void processImage(cv::Mat& img, cv::Mat& dst, cv::Mat& mask, Colour color)
             break;
         }
         case NONE:
-            cv::inRange(dst, cv::Scalar(0,0,0), cv::Scalar(0,0,0), mask);
+        {
+            cv::inRange(dst, noColor, noColor, mask);
             break;
+        }
     }
 
     cv::morphologyEx(mask, mask, cv::MORPH_OPEN, kernel, anchorPoint, 1);

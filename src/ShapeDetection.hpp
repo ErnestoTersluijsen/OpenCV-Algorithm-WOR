@@ -16,7 +16,8 @@ enum Shape {
     SQUARE,
     RECTANGLE,
     CIRCLE,
-    SEMI_CIRCLE
+    SEMI_CIRCLE,
+	NO_SHAPE
 };
 
 /**

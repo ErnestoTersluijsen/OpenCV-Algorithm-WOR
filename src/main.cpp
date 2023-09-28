@@ -10,11 +10,12 @@
 #include <fstream>
 
 const long WEBCAM_DEVICE_ID = 0;
+long batchInterval = 2;
 bool isInteractive = true;
 
 bool run = true;
-Colour colour = YELLOW;
-Shape shape = SQUARE;
+Colour colour = NONE;
+Shape shape = NO_SHAPE;
 
 std::mutex runBooleanMutex;
 std::mutex colourMutex;
@@ -57,11 +58,13 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char **argv)
         processImage(img, processedImg, mask, getColour());
 
         detectShape(mask, img, getShape(), isInteractive);
-        std::cout << "Clock Ticks: " << cv::getTickCount() - clockTickStart << std::endl << std::endl;
-
+        if(getShape() != NO_SHAPE && getColour() != NONE)
+        {
+        	std::cout << "Clock Ticks: " << cv::getTickCount() - clockTickStart << std::endl << std::endl;
+        }
         cv::imshow("Shape & Colour detection", img);
         // cv::imshow("Processed Image", processedImg);
-        cv::imshow("Mask", mask);
+        // cv::imshow("Mask", mask);
 
         cv::waitKey(1);
     }
@@ -73,11 +76,9 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char **argv)
 
 void parseCommands(const std::string& filename) {
     std::stringstream buffer;
-    if(!filename.empty())
-    {
+    if(!filename.empty()) {
         std::fstream file(filename);
         buffer << file.rdbuf();
-        file.close();
     }
 
     while (getRun())
@@ -130,8 +131,10 @@ void parseCommands(const std::string& filename) {
             } else if (tokens.front() == "halve") {
                 shape1 = SEMI_CIRCLE;
             } else {
-                std::cout << "incorrecte invoer" << std::endl;
-                continue;
+                std::cout << "Incorrecte invoer: geen vorm met deze naam" << std::endl;
+            	setShape(NO_SHAPE);
+            	setColour(NONE);
+            	continue;
             }
 
             if (tokens.back() == "groen") {
@@ -143,13 +146,22 @@ void parseCommands(const std::string& filename) {
             } else if (tokens.back() == "oranje") {
                 colour1 = ORANGE;
             } else {
-                std::cout << "incorrecte invoer" << std::endl;
-                continue;
+                std::cout << "Incorrecte invoer: geen kleur met deze naam" << std::endl;
+            	setShape(NO_SHAPE);
+            	setColour(NONE);
+            	continue;
             }
 
             setShape(shape1);
             setColour(colour1);
-            std::this_thread::sleep_for(std::chrono::seconds(1));
+            std::this_thread::sleep_for(std::chrono::seconds(batchInterval));
+        }
+        else
+        {
+        	std::cout << "Incorrecte invoer: missende argumenten" << std::endl;
+        	setShape(NO_SHAPE);
+        	setColour(NONE);
+        	std::this_thread::sleep_for(std::chrono::seconds(batchInterval));
         }
     }
 }
